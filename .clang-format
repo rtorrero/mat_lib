@@ -1,0 +1,24 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  IndentBraces: false
+AccessModifierOffset: -2
+NamespaceIndentation: All
+ColumnLimit: 0
+AlignAfterOpenBracket: Always
+AlignOperands: true
+AlignConsecutiveAssignments: true
+SortIncludes: false
+PointerAlignment: Left
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+Standard: C++17

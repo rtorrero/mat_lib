@@ -1,0 +1,10 @@
+{
+    "[cpp]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true,
+      "editor.detectIndentation": false,
+      "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+      "editor.formatOnSave": true,
+      "files.trimTrailingWhitespace": true,
+    }
+  }

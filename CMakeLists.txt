@@ -8,7 +8,8 @@ message(STATUS "  'mat_lib' will be generated")
 # mat_lib library 
 add_library(
   mat_lib
-  matrix.cpp 
+  matrix.cpp
+  vector.cpp
 )
 
 message(STATUS "targets:")
