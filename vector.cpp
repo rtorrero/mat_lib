@@ -82,7 +82,7 @@ vector &vector::operator-=(const vector &v) {
 }
 
 // divide vector by a scalar and assign to the current vector
-vector &vector::operator/=(float scalar) {
+vector &vector::operator/=(element_t scalar) {
   if (scalar == 0) {
     ostringstream str_stream;
     str_stream << "divide by zero! bad scalar provided (" << __func__
@@ -110,27 +110,6 @@ void vector::save_as(const string &file_name) const {
     ofs << elements__[i] << " ";
   ofs << "\n";
 }
-
-// Non-member operators
-vector operator+(const vector &a, const vector &b) {
-  vector c{a};
-
-  return c += b;
-}
-
-vector operator-(const vector &a, const vector &b) {
-  vector c{a};
-
-  return c -= b;
-}
-
-vector operator*(const vector &v, double scalar) {
-  vector result{v};
-
-  return result *= scalar;
-}
-
-vector operator*(double scalar, const vector &v) { return v * scalar; }
 
 // Matrix * Vector (column vector)
 vector operator*(const matrix &m, const vector &v) {

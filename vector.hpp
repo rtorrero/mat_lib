@@ -81,7 +81,7 @@ public:
     return *this;
   }
 
-  vector &operator/=(float scalar);
+  vector &operator/=(element_t scalar);
 
   void save_as(const string &file_name) const;
 
@@ -102,6 +102,27 @@ private:
       elements__[i] = v.elements__[i];
   }
 };
+
+inline vector operator+(const vector &a, const vector &b) {
+  vector c{a};
+  return c += b;
+}
+
+inline vector operator-(const vector &a, const vector &b) {
+  vector c{a};
+  return c -= b;
+}
+
+inline vector operator*(const vector &v, vector::element_t scalar) {
+  vector c{v};
+  return c *= scalar;
+}
+
+inline vector operator*(vector::element_t scalar, const vector &v) {
+  return v * scalar;
+}
+
+inline vector operator-(const vector &v) { return v * -1; }
 
 vector operator*(const matrix &m, const vector &v);
 vector operator*(const vector &v, const matrix &m);
