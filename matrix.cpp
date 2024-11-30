@@ -1,10 +1,11 @@
-// matrix.cpp 
-// author: Antonio C. Domínguez Brito <antonio.dominguez@ulpgc.es>  
+// matrix.cpp
+// author: Antonio C. Domínguez Brito <antonio.dominguez@ulpgc.es>
 // creation date: september 20th 2020
-// Description: This is the header file of class matrix which is a 
+// Description: This is the header file of class matrix which is a
 // 2D matrix
 
 #include "matrix.hpp"
+#include "vector.hpp"
 
 #define MATRIX_CPP
 
@@ -51,9 +52,17 @@ namespace mat_lib
         ifs>>elements__[offset__(i,j)];
   }
 
-  matrix::element_t matrix::at(size_t i, size_t j) const 
-  { 
-    if((i>=rows__) || (j>=columns__)) 
+  matrix::matrix(const vector &v)
+  : rows__{1},
+    columns__{v.size()},
+    elements__{new element_t[rows__*columns__]}
+  {
+    for(size_t i=0; i<v.size(); i++) elements__[i]=v[i];
+  }
+
+  matrix::element_t matrix::at(size_t i, size_t j) const
+  {
+    if((i>=rows__) || (j>=columns__))
     {
       ostringstream str_stream;
       str_stream<<"out_of range exception ("
@@ -67,18 +76,18 @@ namespace mat_lib
 
   bool matrix::operator==(const matrix& m) const
   {
-    if((rows__!=m.rows()) || (columns__!=m.columns())) return false; 
+    if((rows__!=m.rows()) || (columns__!=m.columns())) return false;
 
     for(size_t i=0; i<rows__; i++)
-      for(size_t j=0; j<columns__; j++) 
+      for(size_t j=0; j<columns__; j++)
         if(elements__[offset__(i,j)]!=m[i][j]) return false;
-    
+
     return true;
   }
 
   matrix& matrix::operator+=(const matrix& m)
   {
-    if((rows__!=m.rows()) || (columns__!=m.columns())) 
+    if((rows__!=m.rows()) || (columns__!=m.columns()))
     {
       ostringstream str_stream;
       str_stream<<"size mismatch! cannot add matrices ("
@@ -88,13 +97,13 @@ namespace mat_lib
 
     for(size_t i=0; i<rows__; i++)
       for(size_t j=0; j<columns__; j++) elements__[offset__(i,j)]+=m[i][j];
-      
+
     return *this;
   }
 
   matrix& matrix::operator-=(const matrix& m)
   {
-    if((rows()!=m.rows()) || (columns()!=m.columns())) 
+    if((rows()!=m.rows()) || (columns()!=m.columns()))
     {
       ostringstream str_stream;
       str_stream<<"size mismatch! cannot substract matrices ("
@@ -104,13 +113,13 @@ namespace mat_lib
 
     for(size_t i=0; i<rows__; i++)
       for(size_t j=0; j<columns__; j++) elements__[offset__(i,j)]-=m[i][j];
-      
+
     return *this;
   }
 
   matrix& matrix::operator/=(float scalar)
   {
-    if(scalar==0) 
+    if(scalar==0)
     {
       ostringstream str_stream;
       str_stream<<"divide by zero! bad scalar provided ("
@@ -121,6 +130,44 @@ namespace mat_lib
       for(size_t j=0; j<columns__; j++) elements__[offset__(i,j)]/=scalar;
 
     return *this;
+  }
+
+  vector matrix::get_row(size_t row_index) const
+  {
+    if (row_index >= rows__)
+    {
+      ostringstream str_stream;
+      str_stream << "Row index out of bounds (" << __func__ << "() in "
+        << __FILE__ << ":" << __LINE__ << ")";
+      throw out_of_range(str_stream.str());
+    }
+
+    vector row(columns__);
+    for (size_t j = 0; j < columns__; ++j)
+    {
+      row[j] = elements__[offset__(row_index, j)];
+    }
+
+    return row;
+  }
+
+  vector matrix::get_column(size_t column_index) const
+  {
+    if (column_index >= columns__)
+    {
+      ostringstream str_stream;
+      str_stream << "Column index out of bounds (" << __func__ << "() in "
+        << __FILE__ << ":" << __LINE__ << ")";
+      throw out_of_range(str_stream.str());
+    }
+
+    vector column(rows__);
+    for (size_t i = 0; i < rows__; ++i)
+    {
+      column[i] = elements__[offset__(i, column_index)];
+    }
+
+    return column;
   }
 
   void matrix::save_as(const string& file_name) const
@@ -144,7 +191,7 @@ namespace mat_lib
 
   matrix operator+(const matrix& a, const matrix& b)
   {
-    if((a.rows()!=b.rows()) || (a.columns()!=b.columns())) 
+    if((a.rows()!=b.rows()) || (a.columns()!=b.columns()))
     {
       ostringstream str_stream;
       str_stream<<"size mismatch! cannot add matrices ("
@@ -158,7 +205,7 @@ namespace mat_lib
 
   matrix operator-(const matrix& a, const matrix& b)
   {
-    if((a.rows()!=b.rows()) || (a.columns()!=b.columns())) 
+    if((a.rows()!=b.rows()) || (a.columns()!=b.columns()))
     {
       ostringstream str_stream;
       str_stream<<"size mismatch! cannot substract matrices ("
